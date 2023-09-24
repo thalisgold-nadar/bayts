@@ -26,7 +26,9 @@ detectBayts <- function (bayts, chi = 0.5, PNFmin = 0.5, start = NULL, end = NUL
 {
   #check for observations in the monitoring period with PNF >= PNFmin
   ind <- which(bayts$PNF >= PNFmin)
-  ind <- ind[which(ind >= min(which(index(bayts) >= start)))]
+  if (!is.null(start)) {
+    ind <- ind[which(ind >= min(which(index(bayts) >= start)))]
+  }
   
   if (length(ind) > 0) {
     ################################
@@ -99,3 +101,11 @@ detectBayts <- function (bayts, chi = 0.5, PNFmin = 0.5, start = NULL, end = NUL
   }
   return(bayts)
 }
+
+
+# Added lines to execute code and visualize functionalities
+
+# bayts <- detectBayts(bayts, chi=0.9, PNFmin=0.5, start=NULL, end=NULL)
+# start <- NULL
+# end <- NULL
+# PNFmin <- 0.5
