@@ -83,13 +83,10 @@ createBayts <- function (tsL=list(NULL,...), pdfL=list(NULL,...), bwf = c(0.1, 0
   return(ts1)
 }
 
-
-
 # Added lines to execute code and visualize functionalities
+tsL=list(tlndvi,ts1vv)
+pdfL=list(lndvi_pdf,s1vv_pdf)
+bwf=c(0.1, 0.9)
 
-# tsL=list(tlndvi,ts1vv)
-# pdfL=list(lndvi_pdf,s1vv_pdf)
-# bwf=c(0.1, 0.9)
-
-# bayts <- createBayts(tsL, pdfL, bwf)
-# bayts_after_creating <- bayts
+bayts <- createBayts(tsL, pdfL, bwf)
+bayts_after_creating <- bayts
