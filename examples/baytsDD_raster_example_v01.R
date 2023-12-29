@@ -24,7 +24,6 @@ require(bayts)
 
 # load raster bricks; Sentinel-1 VV (s1vv, 2014-10-07 - 2016-05-17) and Landsat NDVI (lndvi, 2005-01-03 - 2016-05-25) 
 data(s1vh_riau_raster)
-
 # plot raster
 plot(s1vh,3)
 plot(s1vh,250) 
@@ -32,7 +31,8 @@ plot(fmask,add=T) #forest mask
 
 ## Single pixel example
 plot(s1vh,250) 
-cell <- click(s1vh, n=1, cell=TRUE)[,1]
+# cell <- click(s1vh, n=1, cell=TRUE)[,1]
+cell <- 500
 ts1vh <- bfastts(as.vector(s1vh[cell]),s1vh_date,type=c("irregular"))      # original Sentinel-1 VV
 plotts(list(ts1vh),labL = list("S1VH [dB]"))
 
@@ -53,6 +53,7 @@ PNFmin = 0.75
 
 # (1) apply
 anb <- baytsDD(tsL=list(ts1vh),formulaL=list(formula),pdfsdL=list(pdfsd),orderL=list(order),start=start,PNFmin=PNFmin,chi=chi)
+
 # (2) plot
 plotBayts(anb$bayts,ylimL=list(c(-20,-10),c(-10,5)),labL=list("VH [dB]"),plotflag = TRUE)
 
@@ -68,6 +69,25 @@ require(bfastSpatial)
 out2 <- baytsDDSpatial(bL=list(s1vh), datesL=list(s1vh_date), pdfsdL=list(pdfsd), mask=fmask, start=start,formulaL=list(formula),orderL=list(order),PNFmin=PNFmin,chi=chi,mc.cores=10)
 # plot confirmed changes
 plot(out2,2)
+
+
+# Create DataFrame from RasterBrick for examples!
+
+decimal_to_date <- function(decimal_dates){
+  origin <- as.Date("1970-01-01")  # or use another origin date if required
+  date_result <- origin + round(365.25 * (decimal_dates - 1970))
+  return(date_result)
+}
+
+# ts1vh_df <- data.frame(date=index(ts1vh), observation=coredata(ts1vh))
+# ts1vh_df$date <- decimal_to_date(ts1vh_df$date)
+# ts1vh_df <- ts1vh_df[!is.na(ts1vh_df$observation), ]
+# ts1vh_df
+# 
+# write.csv(ts1vh_df, "s1vh_timeseries.csv", row.names=FALSE)
+
+
+
 
 
 

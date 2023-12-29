@@ -42,8 +42,8 @@ baytsDD <- function (tsL=list(NULL, ...), pdfsdL=list(), distNFL=list(), start_h
   for (i in 1:length(tsL)){
     ### STEP 1: MODEL HISTORY PERIOD USING SEASONAL AND TREND MODEL [taken from the bfast package]
     ## create data frame
-    if(length(orderL)==0){order <- 1} else (order <- orderL[[i]])
-    data_tspp <- bfastpp(tsL[[i]], order = order)
+    if(length(orderL)==0){order <- 1} else (order <- orderL[[1]])
+    data_tspp <- bfastpp(tsL[[1]], order = order)
     
     ## get history
     history_tspp <- subset(data_tspp, time < end_history)
@@ -51,7 +51,8 @@ baytsDD <- function (tsL=list(NULL, ...), pdfsdL=list(), distNFL=list(), start_h
     
     
     ## model history period using seasonal and trend model
-    if(length(formulaL)==0){formula <- "response ~ harmon"} else (formula <- formulaL[[i]])
+    if(length(formulaL)==0){formula <- "response ~ harmon"} else (formula <- formulaL[[1]])
+    formula = response ~ harmon 
     test_lm <- lm(formula, data = history_tspp)
     
     ## Calculate residuals (deseasonalised observations)
@@ -105,4 +106,14 @@ baytsDD <- function (tsL=list(NULL, ...), pdfsdL=list(), distNFL=list(), start_h
   
   return(rval)
 }
+
+formulaL = list(formula)
+tsL = list(ts1vh)
+orderL = list(order)
+end = NULL
+start_history = NULL
+end_history = NULL
+
+
+
 
